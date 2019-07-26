@@ -1,0 +1,8 @@
+elk:
+  image: elasticsearch:7.2.0
+  container_name: pokedex
+  environment:
+    - discovery.type=single-node
+  ports:
+    - '9200:9200'
+  tty: true

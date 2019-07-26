@@ -20,9 +20,6 @@ const app = express();
 
 mongoConfig
   .connectDB()
-  .then(() => {
-    console.log("yay");
-  })
   .catch(err => console.log(err));
 
 app.use(bodyParser.urlencoded({ extended: true }));
