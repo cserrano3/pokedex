@@ -1,5 +1,4 @@
 const Pokemon = require("../schemas/Pokemon");
-const ESClient = require("../config/elasticSearch");
 
 const savePokemon = ({
   name,

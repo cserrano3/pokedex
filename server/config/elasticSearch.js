@@ -1,4 +1,4 @@
 const { Client } = require("@elastic/elasticsearch");
-const ESClient = new Client({ node: "http://localhost:9200" });
+const ESClient = new Client({ node: "http://elasticsearch:9200" });
 
 module.exports = ESClient;

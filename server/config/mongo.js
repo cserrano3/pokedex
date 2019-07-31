@@ -1,12 +1,27 @@
 const mongoose = require("mongoose");
 
+const {
+  MONGO_USERNAME,
+  MONGO_PASSWORD,
+  MONGO_HOST,
+  MONGO_PORT,
+  MONGO_DB
+} = process.env;
+
+console.log('MONGO INSERNAME.............. ', MONGO_USERNAME)
+
+const options = {
+  useNewUrlParser: true,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 5000,
+  connectTimeoutMS: 10000,
+};
+
+const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+console.log('url................. ', url)
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_DB_URL, {
-      useNewUrlParser: true,
-      useFindAndModify: true,
-      connectTimeoutMS: 5000
-    });
+    await mongoose.connect(url, options);
     console.log("MONGO connected successfully");
   } catch (e) {
     console.log(`Error: There was an error while trying to connect - ${e}`);

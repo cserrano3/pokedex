@@ -1,0 +1,70 @@
+version: '3'
+services:
+  pokedex-api:
+    container_name: pokedex-api
+    build: .
+    image: nodejs
+    restart: always
+    env_file: ./.env
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    environment:
+      - NODE_ENV=development
+      - ES_HOST=elasticsearch
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_HOSTNAME=mongodb
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DB=${MONGO_DB}
+      - PORT=3000
+    volumes:
+      - .:/usr/src/app/server
+      - node_modules:/usr/src/app/server/node_modules
+    links:
+      - mongodb
+    networks: 
+      - pokedex-network
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    env_file: ./.env
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_DATA_DIR=/usr/src/app/data/db
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/usr/src/app/data/db
+    networks:
+      - pokedex-network
+
+  elasticsearch:
+    container_name: pokemon_search
+    image: elasticsearch:7.2.0
+    volumes:
+    - esdata:/usr/src/app/elasticsearch/data
+    environment:
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - cluster.name='pokedex-cluster'
+    - discovery.type=single-node
+    ports:
+    - 9200:9200
+    - 9300:9300
+    networks:
+      - pokedex-network
+
+volumes:
+  esdata:
+  mongodata:
+  node_modules:
+
+networks:
+  pokedex-network:
+    driver: bridge
