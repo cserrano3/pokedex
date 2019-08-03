@@ -23,7 +23,9 @@ services:
       - node_modules:/usr/src/app/server/node_modules
     links:
       - mongodb
-    networks: 
+      - es01
+      - es02
+    networks:
       - pokedex-network
     depends_on:
       - mongodb
@@ -44,23 +46,6 @@ services:
     networks:
       - pokedex-network
 
-  # elasticsearch:
-  #   container_name: pokemon_search
-  #   image: elasticsearch:7.2.0
-  #   volumes:
-  #   - esdata:/usr/src/app/elasticsearch/data
-  #   environment:
-  #   - bootstrap.memory_lock=true
-  #   - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #   - cluster.name='pokedex-cluster'
-  #   - discovery.type=single-node
-  #   ports:
-  #   - 9200:9200
-  #   - 9300:9300
-  #   networks:
-  #     - pokedex-network
-
-
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
     container_name: es01
@@ -80,7 +65,7 @@ services:
     ports:
       - 9200:9200
     networks:
-      - esnet
+      - pokedex-network
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
     container_name: es02
@@ -98,7 +83,7 @@ services:
     volumes:
       - esdata02:/usr/share/elasticsearch/data
     networks:
-      - esnet
+      - pokedex-network
 
 volumes:
   esdata01:
@@ -107,6 +92,5 @@ volumes:
   node_modules:
 
 networks:
-  esnet:
   pokedex-network:
     driver: bridge
