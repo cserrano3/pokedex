@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const {
+/* const {
   MONGO_USERNAME,
   MONGO_PASSWORD,
   MONGO_HOST,
   MONGO_PORT,
   MONGO_DB
-} = process.env;
-
-console.log('MONGO INSERNAME.............. ', MONGO_USERNAME)
+} = process.env; 
+  Use on Docker Image
+*/ 
 
 const options = {
   useNewUrlParser: true,
@@ -17,8 +17,9 @@ const options = {
   connectTimeoutMS: 10000,
 };
 
-const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
-console.log('url................. ', url)
+//const url = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`; Docker Image
+const url = 'mongodb://127.0.0.1:27017/pokedex' // - Localhost only
+
 const connectDB = async () => {
   try {
     await mongoose.connect(url, options);

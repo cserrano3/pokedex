@@ -6,13 +6,23 @@ const lazilySavePokemon = id => {
   return new Promise((resolve, reject) => {
     axios
       .get(`${baseUrl}pokemon/${id}`)
-      .then(({ data }) => {
-        const { name, id, order } = JSON.parse(JSON.stringify(data));
+      .then(({ data: { height, name, id, weight, order, sprites, types } }) => {
+
         const pokemon = {
+          height,
           name,
           id,
-          order
+          weight,
+          order,
+          sprites: [
+            {
+              default: sprites.front_default,
+              shiny: sprites.front_shiny
+            }
+          ],
+          types
         };
+
         const pokemonData = {
           index: "pokemon",
           body: pokemon
@@ -24,7 +34,7 @@ const lazilySavePokemon = id => {
 };
 
 const Jobs = {
-    lazilySavePokemon
+  lazilySavePokemon
 };
 
 module.exports = Jobs;

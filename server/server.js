@@ -18,9 +18,7 @@ const API = "/api/v1";
 
 const app = express();
 
-mongoConfig
-.connectDB()
-.catch(err => console.log('Error: ', err));
+mongoConfig.connectDB().catch(err => console.log("Error: ", err));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -33,12 +31,10 @@ app.use(`${API}/login`, authRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
-  const ids = [...Array(10).keys()];
+  const ids = [...Array(807).keys()];
   ids.shift();
 
-  const result = ids.reduce((prevPromise, nextId) => {
-    return prevPromise.then(() => {
-      Jobs.lazilySavePokemon(nextId);
-    });
+  ids.reduce((prevPromise, nextId) => {
+    return prevPromise.then(() => Jobs.lazilySavePokemon(nextId));
   }, Promise.resolve());
 });
