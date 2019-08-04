@@ -4,6 +4,8 @@ const validateToken = require("../utils/validateToken");
 
 const pokemonRouter = new Router();
 
-pokemonRouter.route("/").post(validateToken, pokemonController.savePokemon);
+pokemonRouter.route("/")
+    .post(validateToken, pokemonController.savePokemon)
+    .get(validateToken, pokemonController.findPokemon);
 
 module.exports = pokemonRouter;

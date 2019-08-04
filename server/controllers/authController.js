@@ -16,7 +16,7 @@ const login = (req, res) => {
                     const token = generateToken({email: user.email})
                     res.status(200).send({
                         message: 'Logged successfully',
-                        token: 'Bearer ' + token,
+                        token,
                         email: user.email
                     });
                 } else {

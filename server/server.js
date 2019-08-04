@@ -31,12 +31,15 @@ app.use(`${API}/login`, authRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
-  const ids = [...Array(807).keys()];
+  const ids = [...Array(11).keys()];
   ids.shift();
 
   ids.reduce(
     (prevPromise, nextId) =>
-      prevPromise.then(() => Jobs.lazilySavePokemon(nextId)),
+      prevPromise.then(() => {
+        console.log('pokemon id.....', nextId)
+        return Jobs.lazilySavePokemon(nextId)
+      }),
     Promise.resolve()
   );
 });

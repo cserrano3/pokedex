@@ -7,7 +7,6 @@ const lazilySavePokemon = id => {
     axios
       .get(`${baseUrl}pokemon/${id}`)
       .then(({ data: { height, name, id, weight, order, sprites, types } }) => {
-
         const pokemon = {
           height,
           name,
@@ -33,8 +32,52 @@ const lazilySavePokemon = id => {
   });
 };
 
+const createAnalyzer = _ =>
+  axios
+    .put("http://127.0.0.1:9200/pokemon", {
+      data: {
+        settings: {
+          analysis: {
+            filter: {
+              autocomplete_filter: {
+                type: "edge_ngram",
+                min_gram: 1,
+                max_gram: 5
+              }
+            },
+            analyzer: {
+              autocomplete: {
+                type: "custom",
+                tokenizer: "standard",
+                filter: ["lowercase", "autocomplete_filter"]
+              }
+            }
+          }
+        }
+      }
+    })
+    .then(({ data: { acknowledged } }) => acknowledged)
+    .catch(error => error);
+
+const createMapping = _ =>
+  axios
+    .put("http://127.0.0.1:9200/pokemon/_mapping", {
+      data: {
+        properties: {
+          name: {
+            analyzer: "autocomplete",
+            type: "text"
+          }
+        }
+      }
+    })
+    .then(({ data: { acknowledged } }) => acknowledged)
+    .catch(error => error);
+
 const Jobs = {
-  lazilySavePokemon
+  lazilySavePokemon,
+  createAnalyzer,
+  createMapping
 };
 
 module.exports = Jobs;
