@@ -34,7 +34,9 @@ app.listen(PORT, () => {
   const ids = [...Array(807).keys()];
   ids.shift();
 
-  ids.reduce((prevPromise, nextId) => {
-    return prevPromise.then(() => Jobs.lazilySavePokemon(nextId));
-  }, Promise.resolve());
+  ids.reduce(
+    (prevPromise, nextId) =>
+      prevPromise.then(() => Jobs.lazilySavePokemon(nextId)),
+    Promise.resolve()
+  );
 });
