@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint:watch": "watch 'npm run lint' ./",
+    "lint-fix": "eslint --fix ./",
+    "start": "nodemon server.js --exec 'npm run lint:watch'"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +25,10 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1",
-    "moment": "^2.24.0"
+    "eslint": "^6.3.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-watch": "^6.0.0",
+    "moment": "^2.24.0",
+    "nodemon": "^1.19.1"
   }
 }

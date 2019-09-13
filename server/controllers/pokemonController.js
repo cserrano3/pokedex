@@ -1,19 +1,19 @@
-const PokemonUseCase = require("../usecases/pokemon");
+const PokemonUseCase = require('../usecases/pokemon');
 
 const savePokemon = (req, res) => {
   const pokemonData = JSON.parse(JSON.stringify(req.body));
 
   PokemonUseCase.savePokemon(pokemonData)
-    .then(result => {
-      res.status(200).json(result);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
 };
 
 const findPokemon = async (req, res) => {
-  const { name } = req.query;
+  const {name} = req.query;
 
   const response = await PokemonUseCase.findPokemon(name);
   if (response) {
@@ -25,7 +25,7 @@ const findPokemon = async (req, res) => {
 
 const PokemonController = {
   savePokemon,
-  findPokemon
+  findPokemon,
 };
 
 module.exports = PokemonController;

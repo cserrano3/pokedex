@@ -1,5 +1,5 @@
-const Pokemon = require("../schemas/Pokemon");
-const axios = require("axios");
+const Pokemon = require('../schemas/Pokemon');
+const axios = require('axios');
 
 const savePokemon = ({
   name,
@@ -9,7 +9,7 @@ const savePokemon = ({
   moves,
   type,
   secondType,
-  nature
+  nature,
 }) => {
   return new Promise((resolve, reject) => {
     const pokemon = new Pokemon({
@@ -20,7 +20,7 @@ const savePokemon = ({
       moves,
       type,
       secondType,
-      nature
+      nature,
     });
 
     pokemon.save((err, result) => {
@@ -30,26 +30,26 @@ const savePokemon = ({
   });
 };
 
-const findPokemon = name =>
+const findPokemon = (name) =>
   axios
-    .get("http://127.0.0.1:9200/pokemon/_search?pretty=true", {
-      data: {
-        query: {
-          match: {
-            name: {
-              query: name,
-              analyzer: "standard"
-            }
-          }
-        }
-      }
-    })
-    .then(({ data }) => data)
-    .catch(error => error);
+      .get('http://127.0.0.1:9200/pokemon/_search?pretty=true', {
+        data: {
+          query: {
+            match: {
+              name: {
+                query: name,
+                analyzer: 'standard',
+              },
+            },
+          },
+        },
+      })
+      .then(({data}) => data)
+      .catch((error) => error);
 
 const PokemonUseCase = {
   savePokemon,
-  findPokemon
+  findPokemon,
 };
 
 module.exports = PokemonUseCase;

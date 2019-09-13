@@ -1,10 +1,10 @@
-const Router = require("express");
-const pokemonController = require("../controllers/pokemonController");
-const validateToken = require("../utils/validateToken");
+const Router = require('express');
+const pokemonController = require('../controllers/pokemonController');
+const validateToken = require('../utils/validateToken');
 
 const pokemonRouter = new Router();
 
-pokemonRouter.route("/")
+pokemonRouter.route('/')
     .post(validateToken, pokemonController.savePokemon)
     .get(validateToken, pokemonController.findPokemon);
 

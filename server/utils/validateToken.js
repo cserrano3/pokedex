@@ -1,4 +1,4 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const validateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -7,20 +7,20 @@ const validateToken = (req, res, next) => {
     const token = authHeader; // Bearer <token>
 
     const options = {
-      expiresIn: "2d",
-      issuer: "pokemon-api"
+      expiresIn: '2d',
+      issuer: 'pokemon-api',
     };
 
-    const [prefix, parsedToken] = token.split(" ");
+    const [prefix, parsedToken] = token.split(' ');
 
     try {
-      if (prefix === "Bearer") {
+      if (prefix === 'Bearer') {
         const result = jwt.verify(parsedToken, process.env.JWT_SECRET, options);
         req.decoded = result;
         next();
       } else {
         res.status(400).send({
-          error: "Token does not provide Bearer"
+          error: 'Token does not provide Bearer',
         });
       }
     } catch (err) {
@@ -28,7 +28,7 @@ const validateToken = (req, res, next) => {
     }
   } else {
     res.status(401).send({
-      error: "Token required"
+      error: 'Token required',
     });
   }
 };

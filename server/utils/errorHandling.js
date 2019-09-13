@@ -1,25 +1,25 @@
-const handleSchemaError = errObj => {
+const handleSchemaError = (errObj) => {
   const error = {
     fields: {
       unique: [],
       required: [],
-      string: []
+      string: [],
     },
-    msg: {}
+    msg: {},
   };
 
-  Object.keys(errObj).forEach(k => {
-    if (errObj[k].kind === "required") {
+  Object.keys(errObj).forEach((k) => {
+    if (errObj[k].kind === 'required') {
       error.fields.required.push(errObj[k].path);
-      error.msg.required = "Fields are required";
-    } else if (errObj[k].kind === "unique") {
+      error.msg.required = 'Fields are required';
+    } else if (errObj[k].kind === 'unique') {
       error.fields.unique.push(errObj[k].path);
-      error.msg.unique = "Fields should be unique";
-    } else if (errObj[k].kind === "String") {
+      error.msg.unique = 'Fields should be unique';
+    } else if (errObj[k].kind === 'String') {
       error.fields.string.push(errObj[k].path);
-      error.msg.string = "Fields should be string";
+      error.msg.string = 'Fields should be string';
     } else {
-      error.msg.server = "Server Error";
+      error.msg.server = 'Server Error';
     }
   });
 
@@ -27,7 +27,7 @@ const handleSchemaError = errObj => {
 };
 
 const ErrorHandler = {
-  handleSchemaError
+  handleSchemaError,
 };
 
 module.exports = ErrorHandler;
