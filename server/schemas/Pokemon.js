@@ -4,11 +4,11 @@ const uniqueValidator = require('mongoose-unique-validator');
 const PokemonSchema = new mongoose.Schema({
   name: {
     type: String,
+    unique: true,
   },
   order: {
     type: Number,
     required: true,
-    unique: true,
   },
   trainer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +17,6 @@ const PokemonSchema = new mongoose.Schema({
   species: {
     type: String,
     required: true,
-    unique: true,
     trim: true,
   },
   moves: {
@@ -54,4 +53,6 @@ const PokemonSchema = new mongoose.Schema({
 
 const Pokemon = mongoose.model('Pokemon', PokemonSchema);
 
-module.exports = Pokemon;
+module.exports = {
+  Pokemon, PokemonSchema,
+};

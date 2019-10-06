@@ -21,6 +21,17 @@ const createUser = ({name, email, password}) => {
   });
 };
 
+const updateUser = (id, updateValue) => new Promise((resolve, reject) => {
+  User.findByIdAndUpdate(id, {updateValue}, {new: true}, (error, result) => {
+    console.log('error................. ', error);
+    if (error) {
+      reject(error);
+    } else {
+      resolve(result);
+    }
+  });
+});
+
 const getAllUsers = () => new Promise((resolve, reject) => {
   User.find({})
       .then((result) => {
@@ -43,6 +54,7 @@ const UserUseCase = {
   createUser,
   getAllUsers,
   getUser,
+  updateUser,
 };
 
 module.exports = UserUseCase;

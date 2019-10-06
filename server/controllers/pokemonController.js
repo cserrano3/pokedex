@@ -8,9 +8,8 @@ const savePokemon = (req, res) => {
   PokemonUseCase.savePokemon(pokemonData)
       .then((result) => {
         res.status(200).json(result);
-      })
-      .catch((error) => {
-        if (error.msg || error.fields || error.code) {
+      }).catch((error) => {
+        if (error.msg || error.fields || error.mongoDriver) {
           res.status(400).json(error);
         } else {
           res.status(500).json(error);

@@ -1,10 +1,11 @@
-const Pokemon = require('../schemas/Pokemon');
+const Model = require('../schemas/Pokemon');
 const ErrorHandler = require('../utils/errorHandling');
 const axios = require('axios');
+const User = require('../schemas/User');
 
 const savePokemon = ({name, order, species, moves, trainer, type, secondType, nature, level}) => {
   return new Promise((resolve, reject) => {
-    const pokemon = new Pokemon({
+    const pokemon = new Model.Pokemon({
       name,
       order,
       species,
@@ -17,16 +18,23 @@ const savePokemon = ({name, order, species, moves, trainer, type, secondType, na
     });
 
     pokemon.save((error, result) => {
-      console.log('error............ ', error);
-      console.log('result............ ', result);
-      if (error.code) {
-        reject({msg: error.errmsg, code: error.code});
+      if (error && error.message) {
+        reject({mongoDriver: error.message});
       }
+
       if (error && error.errors) {
         reject(ErrorHandler.handleSchemaError(error.errors));
-      } else {
-        resolve(result);
       }
+
+      User.findByIdAndUpdate(
+          trainer,
+          {$push: {pokemons: pokemon}},
+          {new: true},
+          (userError, userResult) => {
+            if (userError) reject(userError);
+            resolve({savedPokemon: result, user: userResult});
+          }
+      );
     });
   });
 };
