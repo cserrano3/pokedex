@@ -31,9 +31,10 @@ app.use(`${API}/login`, authRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
-  const ids = [...Array(11).keys()];
+  const ids = [...Array(150).keys()];
   ids.shift();
-
+  Jobs.resetDB();
+  Jobs.createAnalyzer();
   ids.reduce(
       (prevPromise, nextId) =>
         prevPromise.then(() => {

@@ -1,14 +1,20 @@
 const PokemonUseCase = require('../usecases/pokemon');
 
 const savePokemon = (req, res) => {
-  const pokemonData = JSON.parse(JSON.stringify(req.body));
+  const {body, decoded: {id}} = req;
+
+  const pokemonData = {...body, trainer: id};
 
   PokemonUseCase.savePokemon(pokemonData)
       .then((result) => {
         res.status(200).json(result);
       })
       .catch((error) => {
-        res.status(500).json(error);
+        if (error.msg || error.fields || error.code) {
+          res.status(400).json(error);
+        } else {
+          res.status(500).json(error);
+        }
       });
 };
 

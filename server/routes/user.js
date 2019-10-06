@@ -6,5 +6,6 @@ const userRouter = new Router();
 
 userRouter.route('/register').post(userController.register);
 userRouter.route('/').get(validateToken, userController.getAllUsers);
+userRouter.route('/:id').get(validateToken, userController.getUser);
 
 module.exports = userRouter;

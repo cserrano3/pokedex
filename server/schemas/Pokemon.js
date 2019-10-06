@@ -13,9 +13,7 @@ const PokemonSchema = new mongoose.Schema({
   trainer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    unique: true,
-  },
+    required: true},
   species: {
     type: String,
     required: true,
@@ -44,6 +42,13 @@ const PokemonSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  level: {
+    type: Number,
+    required: true,
+    validate: function(val) {
+
+    },
   },
 }).plugin(uniqueValidator);
 

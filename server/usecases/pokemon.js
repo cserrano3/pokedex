@@ -1,38 +1,39 @@
 const Pokemon = require('../schemas/Pokemon');
+const ErrorHandler = require('../utils/errorHandling');
 const axios = require('axios');
 
-const savePokemon = ({
-  name,
-  order,
-  trainer,
-  species,
-  moves,
-  type,
-  secondType,
-  nature,
-}) => {
+const savePokemon = ({name, order, species, moves, trainer, type, secondType, nature, level}) => {
   return new Promise((resolve, reject) => {
     const pokemon = new Pokemon({
       name,
       order,
-      trainer,
       species,
       moves,
+      trainer,
       type,
       secondType,
       nature,
+      level,
     });
 
-    pokemon.save((err, result) => {
-      if (err) reject(err);
-      resolve(result);
+    pokemon.save((error, result) => {
+      console.log('error............ ', error);
+      console.log('result............ ', result);
+      if (error.code) {
+        reject({msg: error.errmsg, code: error.code});
+      }
+      if (error && error.errors) {
+        reject(ErrorHandler.handleSchemaError(error.errors));
+      } else {
+        resolve(result);
+      }
     });
   });
 };
 
-const findPokemon = (name) =>
+const findPokemon = name =>
   axios
-      .get('http://127.0.0.1:9200/pokemon/_search?pretty=true', {
+      .get(`${process.env.ELASTIC_HOST}/pokemon/_search?pretty=true`, {
         data: {
           query: {
             match: {
@@ -45,7 +46,7 @@ const findPokemon = (name) =>
         },
       })
       .then(({data}) => data)
-      .catch((error) => error);
+      .catch(error => error);
 
 const PokemonUseCase = {
   savePokemon,

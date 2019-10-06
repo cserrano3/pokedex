@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
-const generateToken = (payload) => {
+const generateToken = payload => {
   const expiresIn = moment()
       .utc()
       .add({days: 2})

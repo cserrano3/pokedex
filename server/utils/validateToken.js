@@ -1,27 +1,18 @@
-const jwt = require('jsonwebtoken');
+const decodeToken = require('../utils/decodeToken');
 
 const validateToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (authHeader) {
-    const token = authHeader; // Bearer <token>
-
-    const options = {
-      expiresIn: '2d',
-      issuer: 'pokemon-api',
-    };
-
-    const [prefix, parsedToken] = token.split(' ');
-
+  if (authHeader) {// Bearer <token>
     try {
-      if (prefix === 'Bearer') {
-        const result = jwt.verify(parsedToken, process.env.JWT_SECRET, options);
+      const result = decodeToken(authHeader);
+      if (result instanceof Error) {
+        res.status(400).send({
+          error: result.message,
+        });
+      } else {
         req.decoded = result;
         next();
-      } else {
-        res.status(400).send({
-          error: 'Token does not provide Bearer',
-        });
       }
     } catch (err) {
       res.status(500).send(err);

@@ -13,7 +13,7 @@ const login = (req, res) => {
     User.findOne({email}, (err, user) => {
       if (!err && user) {
         if (comparePassword(user.password, password)) {
-          const token = generateToken({email: user.email});
+          const token = generateToken({email: user.email, id: user._id});
           res.status(200).send({
             message: 'Logged successfully',
             token,

@@ -21,23 +21,28 @@ const createUser = ({name, email, password}) => {
   });
 };
 
-const getAllUsers = () => {
-  return new Promise((resolve, reject) => {
-    User.find({})
-        .then((result) => {
-          if (result.length === 0) {
-            reject({error: 'Users not found', type: 'not-found'});
-          }
+const getAllUsers = () => new Promise((resolve, reject) => {
+  User.find({})
+      .then((result) => {
+        if (result.length === 0) {
+          reject({error: 'Users not found', type: 'not-found'});
+        }
 
-          resolve(result);
-        })
-        .catch((error) => reject({error, type: 'server'}));
-  });
-};
+        resolve(result);
+      })
+      .catch((error) => reject({error, type: 'server'}));
+});
+
+const getUser = (id) => new Promise((resolve, reject) => {
+  User.findById(id)
+      .then(result => resolve(result))
+      .catch(error => reject(error));
+});
 
 const UserUseCase = {
   createUser,
   getAllUsers,
+  getUser,
 };
 
 module.exports = UserUseCase;

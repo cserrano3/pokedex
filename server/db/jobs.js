@@ -32,6 +32,8 @@ const lazilySavePokemon = (id) => {
   });
 };
 
+const resetDB = () => axios.delete('http://127.0.0.1:9200/pokemon');
+
 const createAnalyzer = (_) =>
   axios
       .put('http://127.0.0.1:9200/pokemon', {
@@ -77,6 +79,7 @@ const createMapping = (_) =>
 const Jobs = {
   lazilySavePokemon,
   createAnalyzer,
+  resetDB,
   createMapping,
 };
 

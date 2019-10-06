@@ -7,10 +7,12 @@
         "browser": true
     },
     "parserOptions": {
-        "ecmaVersion": 2017
+        "ecmaVersion": 2018,
+        "ecmaFeatures": {"spread": true}
     },
     "rules": {
-        "max-len": [2, 100, 8],
-        "prefer-promise-reject-errors": "off"
+        "max-len": [2, 100, 4],
+        "prefer-promise-reject-errors": "off",
+        "arrow-parens": "off"
     }
 }

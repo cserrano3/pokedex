@@ -7,7 +7,7 @@
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:watch": "watch 'npm run lint' ./",
     "lint-fix": "eslint --fix ./",
-    "start": "nodemon server.js --exec 'npm run lint:watch'"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +29,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-watch": "^6.0.0",
     "moment": "^2.24.0",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "prettier-eslint": "^9.0.0"
   }
 }
